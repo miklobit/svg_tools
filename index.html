@@ -42,7 +42,8 @@ var svg = d3.select("body").append("svg")
  
 var text = svg.append("text").
     .attr("x", 100)
-    .attr("y", 100);
+    .attr("y", 100)
+    .text("jaki tekst");
  
 var gearBig = svg.append("g")
     .datum({teeth: 32, radius: height * 2 / 5})
