@@ -29,7 +29,7 @@ form {
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
  
-var text =  document.getElementById('textarea').innerHTML.split('\n') ;
+var textLines =  document.getElementById('textarea').innerHTML.split('\n') ;
  
 var width = "500mm",
     height = "500mm",
@@ -44,16 +44,22 @@ var svg = d3.select("body").append("svg")
   .append("g");
 //    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
  
- 
-var text = svg.append("text")
-    .attr("x", "200")
-    .attr("y", "200")
+
+for(var i = 0;i < textLines.length;i++){
+    //code here using lines[i] which will give you each line
+  var text = svg.append("text")
+    .attr("x", 300)
+    .attr("y", 200 + i * 25)
     .attr("font-size",25)
 //    .attr("font-family","serif")
     .attr("text-anchor","middle")
     .attr("font-weight","bold")
     .attr("fill","#ff0000")    
-    .text("EVXXXX");
+    .text(textLines[i]);  
+    
+}
+ 
+
  
 
  
