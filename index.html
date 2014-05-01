@@ -24,10 +24,14 @@ form {
   <label><input type="radio" name="mode" value="atc" checked> accelerate-then-coast</label>
   <label><input type="radio" name="mode" value="cubic"> cubic-in-out</label>
   <label><input type="radio" name="mode" value="linear"> linear</label>
-  <textarea id="textarea">linia 1&#13;&#10;linia 2</textarea>
+  <textarea id="textarea" oninput="textChanged();">linia 1&#13;&#10;linia 2</textarea>
 </form>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
+ 
+function textChanged() {
+        // DoSomething
+} 
  
 var textLines =  document.getElementById('textarea').innerHTML.split('\n') ;
  
@@ -40,8 +44,8 @@ var width = "500mm",
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
-    .attr("preserveAspectRatio", "none")
-  .append("g");
+    .attr("preserveAspectRatio", "none");
+
 //    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
  
 
