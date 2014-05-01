@@ -31,7 +31,7 @@ form {
  
 
  
-var textLines =  document.getElementById('textarea').innerHTML.split('\n') ;
+
  
 var width = "500mm",
     height = "500mm",
@@ -51,6 +51,7 @@ textChanged();
  
 
 function textChanged() {
+   var textLines =  document.getElementById('textarea').innerHTML.split('\n') ;  
    for(var i = 0;i < textLines.length;i++){
        //code here using lines[i] which will give you each line
      var text = svg.append("text")
