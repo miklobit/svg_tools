@@ -29,9 +29,7 @@ form {
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
  
-function textChanged() {
-        // DoSomething
-} 
+
  
 var textLines =  document.getElementById('textarea').innerHTML.split('\n') ;
  
@@ -48,23 +46,26 @@ var svg = d3.select("body").append("svg")
 
 //    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
  
-
-for(var i = 0;i < textLines.length;i++){
-    //code here using lines[i] which will give you each line
-  var text = svg.append("text")
-    .attr("x", 300)
-    .attr("y", 200 + i * 25)
-    .attr("font-size",25)
-//    .attr("font-family","serif")
-    .attr("text-anchor","middle")
-    .attr("font-weight","bold")
-    .attr("fill","#ff0000")    
-    .text(textLines[i]);  
-    
-}
- 
+textChanged();
 
  
+
+function textChanged() {
+   svg.remove();
+   for(var i = 0;i < textLines.length;i++){
+       //code here using lines[i] which will give you each line
+     var text = svg.append("text")
+       .attr("x", 300)
+       .attr("y", 200 + i * 25)
+       .attr("font-size",25)
+   //    .attr("font-family","serif")
+       .attr("text-anchor","middle")
+       .attr("font-weight","bold")
+       .attr("fill","#ff0000")    
+       .text(textLines[i]);  
+       
+   }   
+}  
 
  
 </script>
