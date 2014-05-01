@@ -40,11 +40,11 @@ var svg = d3.select("body").append("svg")
   .append("g");
 //    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
  
-/* 
-var text = svg.append("text").
+ 
+var text = svg.append("text")
     .attr("x", 300)
-    .attr("y", 300);
-*/
+    .attr("y", 300)
+    .text("EVXXXX");
  
 var gearBig = svg.append("g")
     .datum({teeth: 32, radius: height * 2 / 5})
