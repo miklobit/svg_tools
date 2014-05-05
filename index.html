@@ -18,15 +18,21 @@ form {
   left: 20px;
   top: 20px;
 }
- 
+
+#download{
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+}
+
 </style>
 <form>
   <label><input type="radio" name="mode" value="atc" checked> accelerate-then-coast</label>
   <label><input type="radio" name="mode" value="cubic"> cubic-in-out</label>
   <label><input type="radio" name="mode" value="linear"> linear</label>
   <textarea id="textarea" oninput="textChanged();">linia1</textarea>
-  <a href="#" id="download">Download SVG</a>
 </form>
+<a href="#" id="download">Download SVG</a>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
  
@@ -40,7 +46,7 @@ var width = "500mm",
     
  
  
-var svg = d3.select("body").append("svg")
+var svg = d3.select("body").append("svg:svg")
     .attr("width", width)
     .attr("height", height)
     .attr("preserveAspectRatio", "none");
