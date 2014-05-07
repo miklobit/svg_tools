@@ -57,6 +57,7 @@ var width = "500mm",
 var svg = d3.select("#vector").append("svg:svg")
     .attr("width", width)
     .attr("height", height)
+    .attr("viewBox", viewBox)
     .attr("preserveAspectRatio", "none");
 
 //    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
