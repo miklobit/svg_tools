@@ -142,8 +142,8 @@ function textChanged() {
    var y;
    
    for(var i = 0;i < maxCnt;i++){
-//     y = ( i div cols ) * dy ;
-//     x = ( i mod cols ) * dx ;
+     y = ( i div cols ) * dy ;
+     x = ( i mod cols ) * dx ;
 
      var text = svg.append("text")
        .attr("x", 100)
