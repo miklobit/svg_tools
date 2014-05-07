@@ -3,7 +3,7 @@
 <style>
  
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Ubuntu", Helvetica, Arial, sans-serif;
   margin: auto;
   position: relative;
   width: 960px;
@@ -32,9 +32,11 @@ form {
 
 </style>
 <form>
-  <label><input type="radio" name="mode" value="atc" checked> accelerate-then-coast</label>
-  <label><input type="radio" name="mode" value="cubic"> cubic-in-out</label>
-  <label><input type="radio" name="mode" value="linear"> linear</label>
+  <!--
+    <label><input type="radio" name="mode" value="atc" checked> accelerate-then-coast</label>
+    <label><input type="radio" name="mode" value="cubic"> cubic-in-out</label>
+    <label><input type="radio" name="mode" value="linear"> linear</label>
+  -->
   <textarea id="textarea" oninput="textChanged();">linia1</textarea>
 </form>
 <a href="#" id="download">Download SVG</a>
@@ -74,7 +76,7 @@ function textChanged() {
        .attr("x", 300)
        .attr("y", 200 + i * 25)
        .attr("font-size",25)
-   //    .attr("font-family","serif")
+       .attr("font-family","Ubuntu")
        .attr("text-anchor","middle")
        .attr("font-weight","bold")
        .attr("fill","#ff0000")    
