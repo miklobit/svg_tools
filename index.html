@@ -25,6 +25,11 @@ form {
     color: black;
 }
 
+#vector {
+  position: relative;
+  width: 960px;
+}
+
 </style>
 <form>
   <label><input type="radio" name="mode" value="atc" checked> accelerate-then-coast</label>
@@ -47,7 +52,7 @@ var width = "500mm",
     
  
  
-var svg = d3.select("body").append("svg:svg")
+var svg = d3.select("#vector").append("svg:svg")
     .attr("width", width)
     .attr("height", height)
     .attr("preserveAspectRatio", "none");
