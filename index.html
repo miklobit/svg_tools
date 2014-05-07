@@ -138,16 +138,16 @@ d3.select("#download")
 function textChanged() {
    var textLines =  document.getElementById('textarea').innerHTML.split('\n') ;
    var maxCnt = textLines.length;
-   var x, y;
-   
+   var x;
+   var y;
    
    for(var i = 0;i < maxCnt;i++){
-     y = (i div cols) * dy ;
-     x = (i mod cols) * dx ;
+//     y = ( i div cols ) * dy ;
+//     x = ( i mod cols ) * dx ;
 
      var text = svg.append("text")
-       .attr("x", x)
-       .attr("y", y)
+       .attr("x", 100)
+       .attr("y", 100)
        .attr("font-size","10")
        .attr("font-family","Ubuntu")
 //       .attr("text-anchor","middle")
