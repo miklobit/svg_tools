@@ -45,6 +45,7 @@ a:link {
     <label><input type="radio" name="mode" value="linear"> linear</label>
   -->
   <textarea id="textarea" oninput="textChanged();">linia1</textarea> </br>
+  <input type="button" onclick="textChanged();">Create SVG</br>
   <a href="#" id="download">Download SVG</a>  
 </form>
 
@@ -73,7 +74,7 @@ var svg = d3.select("#vector").append("svg:svg")
 
 //    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
  
-textChanged();
+// textChanged();
 
 d3.select("#download")
     .on("mouseover", writeDownloadLink);
