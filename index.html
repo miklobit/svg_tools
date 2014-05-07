@@ -52,6 +52,9 @@ var width = "500mm",
     height = "500mm",
     viewBox = "0 0 500 500";
     
+var row = 10,
+    cols = 5;
+    
  
  
 var svg = d3.select("#vector").append("svg:svg")
@@ -74,8 +77,8 @@ function textChanged() {
    for(var i = 0;i < textLines.length;i++){
        //code here using lines[i] which will give you each line
      var text = svg.append("text")
-       .attr("x", 300)
-       .attr("y", 200 + i * 25)
+       .attr("x", 100)
+       .attr("y", 100 + i * 25)
        .attr("font-size",25)
        .attr("font-family","Ubuntu")
        .attr("text-anchor","middle")
