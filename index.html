@@ -142,12 +142,12 @@ function textChanged() {
    var int y;
    
    for(var i = 0;i < maxCnt;i++){
-     y = ( i div cols ) * dy ;
+     y = Math.floor( i / cols ) * dy ;
      x = ( i % cols ) * dx ;
 
      var text = svg.append("text")
-       .attr("x", 100)
-       .attr("y", 100)
+       .attr("x", x)
+       .attr("y", y)
        .attr("font-size","10")
        .attr("font-family","Ubuntu")
 //       .attr("text-anchor","middle")
