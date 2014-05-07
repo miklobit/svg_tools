@@ -113,7 +113,10 @@ var width = "500mm",
     viewBox = "0 0 500 500";
     
 var rows = 10,
-    cols = 5;
+    cols = 5,
+    dx = 38,
+    dy = 38;
+    
     
  
  
@@ -133,13 +136,19 @@ d3.select("#download")
  
 
 function textChanged() {
-   var textLines =  document.getElementById('textarea').innerHTML.split('\n') ;  
-   for(var i = 0;i < textLines.length;i++){
-       //code here using lines[i] which will give you each line
+   var textLines =  document.getElementById('textarea').innerHTML.split('\n') ;
+   var maxCnt = textLines.length;
+   var x, y;
+   
+   
+   for(var i = 0;i < maxCnt;i++){
+     y = (i div cols) * dy ;
+     x = (i mod cols) * dx ;
+
      var text = svg.append("text")
-       .attr("x", 20)
-       .attr("y", 50 + i * 25)
-       .attr("font-size","5mm")
+       .attr("x", x)
+       .attr("y", y)
+       .attr("font-size","10")
        .attr("font-family","Ubuntu")
 //       .attr("text-anchor","middle")
        .attr("font-weight","bold")
