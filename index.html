@@ -44,7 +44,10 @@ a:link {
     <label><input type="radio" name="mode" value="cubic"> cubic-in-out</label>
     <label><input type="radio" name="mode" value="linear"> linear</label>
   -->
-  <textarea id="textarea" value="zawartosc"> </br>
+  <textarea id="textarea">
+  linia1
+  linia2 
+  </textarea> </br>
   <input type="button" value="Create SVG" onclick="textChanged();"> </br>
   <a href="#" id="download">Download SVG</a>  
 </form>
@@ -86,8 +89,8 @@ function textChanged() {
    for(var i = 0;i < textLines.length;i++){
        //code here using lines[i] which will give you each line
      var text = svg.append("text")
-       .attr("x", 100)
-       .attr("y", 100 + i * 25)
+       .attr("x", 20)
+       .attr("y", 50 + i * 25)
        .attr("font-size",25)
        .attr("font-family","Ubuntu")
        .attr("text-anchor","middle")
