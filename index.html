@@ -138,12 +138,12 @@ d3.select("#download")
 function textChanged() {
    var textLines =  document.getElementById('textarea').innerHTML.split('\n') ;
    var maxCnt = textLines.length;
-   var x;
-   var y;
+   var int x;
+   var int y;
    
    for(var i = 0;i < maxCnt;i++){
      y = ( i div cols ) * dy ;
-     x = ( i mod cols ) * dx ;
+     x = ( i % cols ) * dx ;
 
      var text = svg.append("text")
        .attr("x", 100)
