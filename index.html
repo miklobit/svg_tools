@@ -50,8 +50,8 @@ a:link {
   -->
 <div id="control">  
   <textarea id="textarea" oninput="textChanged();">XXXXXX</textarea> </br>
-  X: <input  id="x" type="number" name="x (mm)" min="0" max="500" value="0" oninput="textChanged();"> </br>
-  Y: <input  id="y" type="number" name="y (mm)" min="0" max="500" value="10" oninput="textChanged();"> </br>   
+  X: <input  id="x0" type="number" name="x (mm)" min="0" max="500" value="0" oninput="textChanged();"> </br>
+  Y: <input  id="y0" type="number" name="y (mm)" min="0" max="500" value="10" oninput="textChanged();"> </br>   
   Dx: <input  id="dx" type="number" name="dx (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>
   Dy: <input  id="dy" type="number" name="dy (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>  
   FontSize: <input  id="fontSize" type="number" name="fontsize" min="1" max="200" value="4" oninput="textChanged();"> </br> 
@@ -101,8 +101,8 @@ function textChanged() {
 
    var rows = 10;
    var cols = 5;
-   var x0 = document.getElementById('x').value;
-   var y0 = document.getElementById('y').value;
+   var x0 = document.getElementById('x0').value;
+   var y0 = document.getElementById('y0').value;
    var dx = document.getElementById('dx').value;
    var dy = document.getElementById('dy').value;    
 
@@ -121,7 +121,7 @@ function textChanged() {
    
    for(var i = 0;i < maxCnt;i++){
      y = (Math.floor( i / cols ) * dy) + y0;
-     x = (( i % cols ) * dx) + x0;
+     x = (( i % cols ) * dx) ;
 
      var text = svg.append("text")
        .attr("x", x)
