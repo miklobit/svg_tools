@@ -50,8 +50,8 @@ a:link {
   -->
 <div id="control">  
   <textarea id="textarea" oninput="textChanged();">XXXXXX</textarea> </br>
-  Dx: <input  id="dx" type="number" name="dx (mm)" min="1" max="100" value="38"> </br>
-  Dy: <input  id="dy" type="number" name="dy (mm)" min="1" max="100" value="38"> </br>  
+  Dx: <input  id="dx" type="number" name="dx (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>
+  Dy: <input  id="dy" type="number" name="dy (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>  
   <p><a href="#" id="download">Download SVG_</a></p>  
 </div>
 <div id="vector"></div>
@@ -67,10 +67,7 @@ var width = "500mm",
     viewBox = "0 0 500 500",
     fontSize = "4";
     
-var rows = 10,
-    cols = 5,
-    dx = 38,
-    dy = 38;
+
     
 
 
@@ -90,8 +87,15 @@ function textChanged() {
    var maxCnt = textLines.length;
    var x;
    var y;
+
+var rows = 10,
+    cols = 5,
+    dx = document.getElementById('dx').value,
+    dy = document.getElementById('dy').value;
    
    d3.select("svg").remove();
+   
+   
    
    var svg = d3.select("#vector").append("svg:svg")
     .attr("width", width)
