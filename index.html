@@ -52,6 +52,7 @@ a:link {
   <textarea id="textarea" oninput="textChanged();">XXXXXX</textarea> </br>
   Dx: <input  id="dx" type="number" name="dx (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>
   Dy: <input  id="dy" type="number" name="dy (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>  
+  FontSize: <input  id="fontSize" type="number" name="fontsize" min="1" max="200" value="4" oninput="textChanged();"> </br>    
   <p><a href="#" id="download">Download SVG_</a></p>  
 </div>
 <div id="vector"></div>
@@ -92,6 +93,7 @@ var rows = 10,
     cols = 5,
     dx = document.getElementById('dx').value,
     dy = document.getElementById('dy').value;
+    fontSize = document.getElementById('fontSize').value;
    
    d3.select("svg").remove();
    
