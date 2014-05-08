@@ -102,7 +102,7 @@ function textChanged() {
     .attr("preserveAspectRatio", "none");   
    
    for(var i = 0;i < maxCnt;i++){
-     y = Math.floor( i / cols ) * dy ;
+     y = Math.floor( i / cols ) * dy + 10;
      x = ( i % cols ) * dx ;
 
      var text = svg.append("text")
