@@ -50,8 +50,8 @@ a:link {
   -->
 <div id="control">  
   <textarea id="textarea" oninput="textChanged();">XXXXXX</textarea> </br>
-  X: <input  id="x" type="number" name="x (mm)" min="1" max="500" value="0" oninput="textChanged();"> </br>
-  Y: <input  id="y" type="number" name="y (mm)" min="1" max="500" value="10" oninput="textChanged();"> </br>   
+  X: <input  id="x" type="number" name="x (mm)" min="0" max="500" value="0" oninput="textChanged();"> </br>
+  Y: <input  id="y" type="number" name="y (mm)" min="0" max="500" value="10" oninput="textChanged();"> </br>   
   Dx: <input  id="dx" type="number" name="dx (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>
   Dy: <input  id="dy" type="number" name="dy (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>  
   FontSize: <input  id="fontSize" type="number" name="fontsize" min="1" max="200" value="4" oninput="textChanged();"> </br> 
@@ -99,14 +99,15 @@ function textChanged() {
    var x;
    var y;
 
-var rows = 10,
-    cols = 5,
-    x0 = document.getElementById('x').value,
-    y0 = document.getElementById('y').value;
-    dx = document.getElementById('dx').value,
-    dy = document.getElementById('dy').value;    
-    fontSize = document.getElementById('fontSize').value;
-    fontFamily = document.getElementById('fontFamily').value;    
+   var rows = 10;
+   var cols = 5;
+   var x0 = document.getElementById('x').value;
+   var y0 = document.getElementById('y').value;
+   var dx = document.getElementById('dx').value;
+   var dy = document.getElementById('dy').value;    
+
+   fontSize = document.getElementById('fontSize').value;
+   fontFamily = document.getElementById('fontFamily').value;    
    
    d3.select("svg").remove();
    
