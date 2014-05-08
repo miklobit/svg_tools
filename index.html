@@ -84,6 +84,7 @@ var rows = 10,
 d3.select("#download")
     .on("mouseover", writeDownloadLink);
 
+d3.select("#vector").append("svg:svg");
  
 
 function textChanged() {
@@ -92,7 +93,7 @@ function textChanged() {
    var x;
    var y;
    
-   d3.select("#vector").remove();
+   d3.select("svg").remove();
    
    var svg = d3.select("#vector").append("svg:svg")
     .attr("width", width)
