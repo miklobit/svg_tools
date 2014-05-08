@@ -29,9 +29,13 @@ a:link {
     color: black;
 }
 
+#control {
+  position: relative;
+  width: 960px;
+}
+
 #vector {
   position: relative;
-  top: 100px;
   width: 960px;
 }
 
@@ -44,62 +48,15 @@ a:link {
     <label><input type="radio" name="mode" value="cubic"> cubic-in-out</label>
     <label><input type="radio" name="mode" value="linear"> linear</label>
   -->
+<div id="control">  
   <textarea id="textarea">
 EVYCQX
 EVBXXN
 EV9W3J
-EVZ04Q
-EVQ1BQ
-EVAXNH
-EVJB6Y
-EVJXVG
-EVGZKQ
-EV8N30
-EV9X1M
-EV6V14
-EVRJXT
-EVZ1CG
-EVVX7D
-EVDRCB
-EV6GDX
-EV3AD9
-EVNDVE
-EVGBZK
-EV8K52
-EVQF69
-EVMR5Q
-EV8PH4
-EV3Z82
-EV19C4
-EV7FY5
-EVP2RM
-EVHF15
-EVAFPY
-EV56AP
-EVY9ZY
-EVBPR7
-EVHTZ1
-EV7M5P
-EV0RZH
-EV5TPR
-EVD42V
-EV9D0V
-EV2QCT
-EVCX87
-EVFYCK
-EV6RVH
-EVQ3NB
-EVJ0AM
-EVEGP0
-EVTY5G
-EVADRZ
-EVMJEZ
-EV87KD
   </textarea> </br>
-  <input type="button" value="Create SVG" onclick="textChanged();"> </br>
-  <a href="#" id="download">Download SVG</a>  
-</form>
-
+  <button type="button" onclick="textChanged();">Create SVG</button>  
+  <p><a href="#" id="download">Download SVG</a></p>  
+</div>
 <div id="vector"></div>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
