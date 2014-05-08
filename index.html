@@ -111,7 +111,7 @@ EVXDNT
 var width = "500mm",
     height = "500mm",
     viewBox = "0 0 500 500",
-    fontSize = "3";
+    fontSize = "4";
     
 var rows = 10,
     cols = 5,
@@ -150,9 +150,9 @@ function textChanged() {
        .attr("x", x)
        .attr("y", y)
        .attr("font-size",fontSize)
-       .attr("font-family","Ubuntu")
+       .attr("font-family","Arial")
 //       .attr("text-anchor","middle")
-       .attr("font-weight","bold")
+       .attr("font-weight","normal")
        .attr("fill","#ff0000")    
        .text(textLines[i]);  
        
