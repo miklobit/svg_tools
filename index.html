@@ -50,10 +50,11 @@ a:link {
   -->
 <div id="control">  
   <textarea id="textarea" oninput="textChanged();">XXXXXX</textarea> </br>
-  X: <input  id="x0" type="number" name="x (mm)" min="0" max="500" value="0" oninput="textChanged();"> </br>
-  Y: <input  id="y0" type="number" name="y (mm)" min="0" max="500" value="10" oninput="textChanged();"> </br>   
-  Dx: <input  id="dx" type="number" name="dx (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>
-  Dy: <input  id="dy" type="number" name="dy (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>  
+  Columns: <input  id="cols" type="number" name="cols" min="1" max="100" value="5" oninput="textChanged();"> </br>  
+  X [mm]: <input  id="x0" type="number" name="x (mm)" min="0" max="500" value="0" oninput="textChanged();"> </br>
+  Y [mm]: <input  id="y0" type="number" name="y (mm)" min="0" max="500" value="10" oninput="textChanged();"> </br>   
+  Dx [mm]: <input  id="dx" type="number" name="dx (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>
+  Dy [mm]: <input  id="dy" type="number" name="dy (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>  
   FontSize: <input  id="fontSize" type="number" name="fontsize" min="1" max="200" value="4" oninput="textChanged();"> </br> 
   Font-family: <select id="fontFamily" onchange="textChanged();">
    <option value="Arial" selected>Arial</option>
@@ -100,7 +101,7 @@ function textChanged() {
    var y;
 
    var rows = 10;
-   var cols = 5;
+   var cols = Number(document.getElementById('cols').value);
    var x0 = Number(document.getElementById('x0').value);
    var y0 = Number(document.getElementById('y0').value);
    var dx = Number(document.getElementById('dx').value);
