@@ -57,6 +57,7 @@ a:link {
   Dy [mm]: <input  id="dy" type="number" name="dy (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>  
   FontSize: <input  id="fontSize" type="number" name="fontsize" min="1" max="200" value="4" oninput="textChanged();"> </br> 
   Font-family: <select id="fontFamily" onchange="textChanged();">
+  Font color: <input id="color" type="color" name="favcolor">
    <option value="Arial" selected>Arial</option>
    <option value="Ubuntu">Ubuntu</option>
    <option value="Tahoma">Tahoma</option>
@@ -105,7 +106,8 @@ function textChanged() {
    var x0 = Number(document.getElementById('x0').value);
    var y0 = Number(document.getElementById('y0').value);
    var dx = Number(document.getElementById('dx').value);
-   var dy = Number(document.getElementById('dy').value);    
+   var dy = Number(document.getElementById('dy').value);  
+   var color = document.getElementById('color').value;
 
    fontSize = document.getElementById('fontSize').value;
    fontFamily = document.getElementById('fontFamily').value;    
@@ -131,7 +133,7 @@ function textChanged() {
        .attr("font-family",fontFamily)
 //       .attr("text-anchor","middle")
        .attr("font-weight","normal")
-       .attr("fill","#ff0000")    
+       .attr("fill",color)    
        .text(textLines[i]);  
        
    }   
