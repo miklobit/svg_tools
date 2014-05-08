@@ -119,8 +119,8 @@ var rows = 10,
     .attr("preserveAspectRatio", "none");   
    
    for(var i = 0;i < maxCnt;i++){
-     y = Math.floor( i / cols ) * dy + x0;
-     x = ( i % cols ) * dx + y0;
+     y = Math.floor( i / cols ) * dy + y0;
+     x = ( i % cols ) * dx + x0;
 
      var text = svg.append("text")
        .attr("x", x)
