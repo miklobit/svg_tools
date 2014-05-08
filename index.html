@@ -110,7 +110,8 @@ EVXDNT
  
 var width = "500mm",
     height = "500mm",
-    viewBox = "0 0 500 500";
+    viewBox = "0 0 500 500",
+    fontSize = "3mm";
     
 var rows = 10,
     cols = 5,
@@ -148,7 +149,7 @@ function textChanged() {
      var text = svg.append("text")
        .attr("x", x)
        .attr("y", y)
-       .attr("font-size","10")
+       .attr("font-size",fontSize)
        .attr("font-family","Ubuntu")
 //       .attr("text-anchor","middle")
        .attr("font-weight","bold")
