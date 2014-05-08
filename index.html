@@ -50,11 +50,8 @@ a:link {
   -->
 <div id="control">  
   <textarea id="textarea" oninput="textChanged();">
-EVYCQX
-EVBXXN
-EV9W3J
+  XXXXXX
   </textarea> </br>
-  <button type="button" onclick="textChanged();">Create SVG</button>  
   <p><a href="#" id="download">Download SVG</a></p>  
 </div>
 <div id="vector"></div>
@@ -85,6 +82,7 @@ d3.select("#download")
     .on("mouseover", writeDownloadLink);
 
 d3.select("#vector").append("svg:svg");
+textChanged();
  
 
 function textChanged() {
