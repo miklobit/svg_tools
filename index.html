@@ -52,7 +52,11 @@ a:link {
   <textarea id="textarea" oninput="textChanged();">XXXXXX</textarea> </br>
   Dx: <input  id="dx" type="number" name="dx (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>
   Dy: <input  id="dy" type="number" name="dy (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>  
-  FontSize: <input  id="fontSize" type="number" name="fontsize" min="1" max="200" value="4" oninput="textChanged();"> </br>    
+  FontSize: <input  id="fontSize" type="number" name="fontsize" min="1" max="200" value="4" oninput="textChanged();"> </br> 
+  Font-family: <select id="fontFamily" oninput="textChanged();">
+   <option value="Arial" selected>Arial</option>
+   <option value="Ubuntu">Ubuntu</option>
+  </select>  
   <p><a href="#" id="download">Download SVG_</a></p>  
 </div>
 <div id="vector"></div>
@@ -67,6 +71,7 @@ var width = "500mm",
     height = "500mm",
     viewBox = "0 0 500 500",
     fontSize = "4";
+    fontFamily = "Arial";
     
 
     
@@ -94,6 +99,7 @@ var rows = 10,
     dx = document.getElementById('dx').value,
     dy = document.getElementById('dy').value;
     fontSize = document.getElementById('fontSize').value;
+    fontFamily = document.getElementById('fontFamily').value;    
    
    d3.select("svg").remove();
    
@@ -113,7 +119,7 @@ var rows = 10,
        .attr("x", x)
        .attr("y", y)
        .attr("font-size",fontSize)
-       .attr("font-family","Arial")
+       .attr("font-family",fontFamily)
 //       .attr("text-anchor","middle")
        .attr("font-weight","normal")
        .attr("fill","#ff0000")    
