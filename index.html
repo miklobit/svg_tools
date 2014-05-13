@@ -64,6 +64,11 @@ a:link {
    <option value="Segoe Print">Segoe Print</option>    
   </select>  </br>
   Font color: <input id="color" type="color" name="favcolor" onchange="textChanged();" value="#ff0000"> </br>  
+  Text-anchor: <select id="textAnchor" onchange="textChanged();"> 
+   <option value="start" selected>start</option>
+   <option value="middle">middle</option>
+   <option value="end">end</option>
+  </select>  </br>  
   <p><a href="#" id="download">Download SVG</a></p>  
 </div>
 <div id="vector"></div>
@@ -78,7 +83,8 @@ var width = "500mm",
     height = "500mm",
     viewBox = "0 0 500 500",
     fontSize = "4";
-    fontFamily = "Arial";
+    fontFamily = "Arial",
+    textAnchor = "start" ;
     
 
     
@@ -110,7 +116,8 @@ function textChanged() {
    var color = document.getElementById('color').value;
 
    fontSize = document.getElementById('fontSize').value;
-   fontFamily = document.getElementById('fontFamily').value;    
+   fontFamily = document.getElementById('fontFamily').value;  
+   textAnchor = document.getElementById('textAnchor').value;     
    
    d3.select("svg").remove();
    
@@ -131,7 +138,7 @@ function textChanged() {
        .attr("y", y)
        .attr("font-size",fontSize)
        .attr("font-family",fontFamily)
-//       .attr("text-anchor","middle")
+       .attr("text-anchor",textAnchor)
        .attr("font-weight","normal")
        .attr("fill",color)    
        .text(textLines[i]);  
