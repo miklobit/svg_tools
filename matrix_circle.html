@@ -53,8 +53,12 @@ a:link {
   Columns: <input  id="cols" type="number" name="cols" min="1" max="100" value="5" oninput="textChanged();"> </br>  
   X [mm]: <input  id="x0" type="number" name="x (mm)" min="0" max="500" value="0" oninput="textChanged();"> </br>
   Y [mm]: <input  id="y0" type="number" name="y (mm)" min="0" max="500" value="10" oninput="textChanged();"> </br>   
-  Rx [mm]: <input  id="rx" type="number" name="rx (mm)" min="0" max="500" value="30" oninput="textChanged();"> </br>
-  Ry [mm]: <input  id="ry" type="number" name="ry (mm)" min="0" max="500" value="30" oninput="textChanged();"> </br>    
+  R [mm]: <input  id="r" type="number" name="r (mm)" min="0" max="500" value="30" oninput="textChanged();"> </br>
+  Angle from[deg]: <input  id="a1" type="number" name="a1 (deg)" min="-360" max="360" value="-30" oninput="textChanged();"> </br>
+  Angle to[deg]: <input  id="a2" type="number" name="a2 (deg)" min="-360" max="360" value="30" oninput="textChanged();"> </br>
+  Arc mirror x: <input  id="mx" type="checkbox" name="mx" value="Arc mirror x"  onChange="textChanged();"> </br>  
+  Arc mirror y: <input  id="my" type="checkbox" name="my" value="Arc mirror y"  onChange="textChanged();"> </br>  
+  Arc visible: <input  id="av" type="checkbox" name="av" value="Arc visible" checked onChange="textChanged();"> </br>
   Dx [mm]: <input  id="dx" type="number" name="dx (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>
   Dy [mm]: <input  id="dy" type="number" name="dy (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>  
   FontSize: <input  id="fontSize" type="number" name="fontsize" min="1" max="200" value="4" oninput="textChanged();"> </br> 
@@ -67,6 +71,8 @@ a:link {
    <option value="Segoe Print">Segoe Print</option>    
   </select>  </br>
   Font color: <input id="color" type="color" name="favcolor" onchange="textChanged();" value="#ff0000"> </br>  
+  Char spacing : <input  id="charspace" type="number" name="charspace" min="-100" max="200" value="0" oninput="textChanged();"> </br> 
+  Text offset X : <input  id="tdx" type="number" name="tdx" min="-100" max="200" value="0" oninput="textChanged();"> </br> 
   Text-anchor: <select id="textAnchor" onchange="textChanged();"> 
    <option value="start" selected>start</option>
    <option value="middle">middle</option>
@@ -87,7 +93,9 @@ var width = "500mm",
     viewBox = "0 0 500 500",
     fontSize = "4",
     fontFamily = "Arial",
-    textAnchor = "start" ;
+    textAnchor = "start" ,
+    charSpace = 0 ;
+    
     
 
     
@@ -116,13 +124,20 @@ function textChanged() {
    var y0 = Number(document.getElementById('y0').value);
    var dx = Number(document.getElementById('dx').value);
    var dy = Number(document.getElementById('dy').value);  
-   var rx = Number(document.getElementById('rx').value);
-   var ry = Number(document.getElementById('ry').value);     
+   var tdx = Number(document.getElementById('tdx').value);     
+   var r = Number(document.getElementById('r').value);
+   var a1 = Number(document.getElementById('a1').value);
+   var a2 = Number(document.getElementById('a2').value);  
+   var av = document.getElementById("av").checked ;
+   var mx = document.getElementById("mx").checked ? -1 : 1 ;   
+   var my = document.getElementById("my").checked ? -1 : 1 ;    
    var color = document.getElementById('color').value;
+
 
    fontSize = document.getElementById('fontSize').value;
    fontFamily = document.getElementById('fontFamily').value;  
-   textAnchor = document.getElementById('textAnchor').value;     
+   textAnchor = document.getElementById('textAnchor').value;
+   charSpace = Number(document.getElementById('charspace').value) / 10 ;   
    
    d3.select("svg").remove();
    
@@ -134,16 +149,21 @@ function textChanged() {
     .attr("viewBox", viewBox)
     .attr("preserveAspectRatio", "none");   
     
+ 
+    var arc = d3.svg.arc()
+        .innerRadius(r)
+        .outerRadius(r)
+        .startAngle(a1 * (Math.PI/180)) //converting from degs to radians
+        .endAngle(a2 * (Math.PI/180));   
+        
+    var path = svg.append("defs").append("path")
+        .attr("id", "path")
+        .attr("d", arc) 
+        .attr("stroke-width", "0.1mm")
+        .attr("stroke", "gray")
+        .attr("fill", "none")
+        .attr("transform", "scale(" + mx + "," + my + ")");
 
-    var ellipse = svg.append("defs").append("ellipse")
-        .attr("id", "path")   
-        .attr("cx", x0)
-        .attr("cy", y0)
-        .attr("rx", rx)
-        .attr("ry", ry)
-        .attr("stroke-width", 1)
-        .attr("stroke", "black")
-        .attr("fill", "none");    
         
 /*        
      var path = svg.append("defs").append("path")
@@ -155,20 +175,27 @@ function textChanged() {
      y = (Math.floor( i / cols ) * dy) + y0;
      x = (( i % cols ) * dx) + x0;
 
+
+      if ( av )  {
+        svg.append("use")
+        .attr("xlink:href", "#path")
+        .attr("id", "path" + i)
+        .attr("transform", "translate(" + x + "," + y + ")");
+      }        
+
      var text = svg.append("text")
-       .attr("x", x)
-       .attr("y", y)
+       .attr("x", tdx)
+       .attr("transform", "translate(" + x + "," + y + ")") 
        .attr("font-size",fontSize)
        .attr("font-family",fontFamily)
        .attr("text-anchor",textAnchor)
        .attr("font-weight","normal")
+       .attr("style", "letter-spacing:" + charSpace + ";")
        .attr("fill",color)    
         .append("textPath")
         .attr("xlink:href", "#path")
-       .text(textLines[i]);
-        
-    svg.append("use")
-    .attr("xlink:href", "#path");
+       .text(textLines[i]) ;
+
        
    }   
 }  
