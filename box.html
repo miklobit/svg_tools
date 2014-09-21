@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+ 
+body {
+  font-family: "Ubuntu", Helvetica, Arial, sans-serif;
+  margin: auto;
+  position: relative;
+  width: 960px;
+}
+ 
+label {
+  display: block;
+}
+ 
+form {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+}
+
+a:link {
+  text-decoration:underline;
+}
+
+#download{
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+}
+
+#control {
+  position: relative;
+  width: 960px;
+}
+
+#vector {
+  position: relative;
+  width: 960px;
+}
+
+
+
+</style>
+<form>
+  <!--
+    <label><input type="radio" name="mode" value="atc" checked> accelerate-then-coast</label>
+    <label><input type="radio" name="mode" value="cubic"> cubic-in-out</label>
+    <label><input type="radio" name="mode" value="linear"> linear</label>
+  -->
+<div id="control">  
+  <textarea id="textarea" oninput="textChanged();">XXXXXX</textarea> </br>
+  Columns: <input  id="cols" type="number" name="cols" min="1" max="100" value="5" oninput="textChanged();"> </br>  
+  X [mm]: <input  id="x0" type="number" name="x (mm)" min="0" max="500" value="0" oninput="textChanged();"> </br>
+  Y [mm]: <input  id="y0" type="number" name="y (mm)" min="0" max="500" value="10" oninput="textChanged();"> </br>   
+  Dx [mm]: <input  id="dx" type="number" name="dx (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>
+  Dy [mm]: <input  id="dy" type="number" name="dy (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>  
+  FontSize: <input  id="fontSize" type="number" name="fontsize" min="1" max="200" value="4" oninput="textChanged();"> </br> 
+  Font-family: <select id="fontFamily" onchange="textChanged();"> 
+   <option value="Arial" selected>Arial</option>
+   <option value="Ubuntu">Ubuntu</option>
+   <option value="Ubuntu Mono">Ubuntu Mono</option>   
+   <option value="Tahoma">Tahoma</option>
+   <option value="Verdana">Verdana</option>  
+   <option value="Segoe Print">Segoe Print</option>    
+  </select>  </br>
+  Font color: <input id="color" type="color" name="favcolor" onchange="textChanged();" value="#ff0000"> </br>  
+  Text-anchor: <select id="textAnchor" onchange="textChanged();"> 
+   <option value="start" selected>start</option>
+   <option value="middle">middle</option>
+   <option value="end">end</option>
+  </select>  </br>  
+  <p><a href="#" id="download">Download SVG</a></p>  
+</div>
+<div id="vector"></div>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+ 
+
+ 
+
+ 
+var width = "500mm",
+    height = "500mm",
+    viewBox = "0 0 500 500",
+    fontSize = "4",
+    fontFamily = "Arial",
+    textAnchor = "start" ;
+    
+
+    
+
+
+//    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+ 
+// textChanged();
+
+d3.select("#download")
+    .on("mouseover", writeDownloadLink);
+
+d3.select("#vector").append("svg:svg");
+textChanged();
+ 
+
+function textChanged() {
+   var textLines =  document.getElementById('textarea').value.split('\n') ;
+   var maxCnt = textLines.length;
+   var x;
+   var y;
+
+   var rows = 10;
+   var cols = Number(document.getElementById('cols').value);
+   var x0 = Number(document.getElementById('x0').value);
+   var y0 = Number(document.getElementById('y0').value);
+   var dx = Number(document.getElementById('dx').value);
+   var dy = Number(document.getElementById('dy').value);  
+   var color = document.getElementById('color').value;
+
+   fontSize = document.getElementById('fontSize').value;
+   fontFamily = document.getElementById('fontFamily').value;  
+   textAnchor = document.getElementById('textAnchor').value;     
+   
+   d3.select("svg").remove();
+   
+   
+   
+   var svg = d3.select("#vector").append("svg:svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("viewBox", viewBox)
+    .attr("preserveAspectRatio", "none");   
+   
+   for(var i = 0;i < maxCnt;i++){
+     y = (Math.floor( i / cols ) * dy) + y0;
+     x = (( i % cols ) * dx) + x0;
+
+     var text = svg.append("text")
+       .attr("x", x)
+       .attr("y", y)
+       .attr("font-size",fontSize)
+       .attr("font-family",fontFamily)
+       .attr("text-anchor",textAnchor)
+       .attr("font-weight","normal")
+       .attr("fill",color)    
+       .text(textLines[i]);  
+       
+   }   
+}  
+
+function writeDownloadLink(){
+    var html = d3.select("svg")
+        .attr("title", "svg_title")
+        .attr("version", 1.1)
+        .attr("xmlns", "http://www.w3.org/2000/svg")
+        .node().parentNode.innerHTML;
+    
+    d3.select(this)
+        .attr("href-lang", "image/svg+xml")
+        .attr("href", "data:image/svg+xml;base64,\n" + btoa(html))
+        .on("mousedown", function(){
+            if(event.button != 2){
+                d3.select(this)
+                    .attr("href", null)
+                    .html("Use right click");
+            }
+        })
+        .on("mouseout", function(){
+            d3.select(this)
+                .html("Download");
+        });
+}; 
+ 
+</script>
