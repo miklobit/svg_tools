@@ -63,7 +63,8 @@ a:link {
   Cover hole len [mm]: <input  id="cdy" type="number" name="Cover hole len (mm)" min="1" max="100" value="20" oninput="textChanged();"> </br>
   Cover hole height [mm]: <input  id="cdx" type="number" name="Cover hole height (mm)" min="1" max="100" value="7" oninput="textChanged();"> </br>
   Cut color: <input id="ccolor" type="color" name="favcolor" onchange="textChanged();" value="#ff0000"> </br> 
-  Emboss color: <input id="ecolor" type="color" name="favcolor" onchange="textChanged();" value="#000000"> </br>   
+  Emboss color: <input id="ecolor" type="color" name="favcolor" onchange="textChanged();" value="#000000"> </br>  
+  Line width [mm/1000]: <input  id="stroke" type="number" name="Line width (mm/1000)" min="1" max="1000" value="200" oninput="textChanged();"> </br>  
   <p><a href="#" id="download">Download SVG</a></p>  
 </div>
 <div id="vector"></div>
@@ -79,8 +80,7 @@ var width = "300mm",
     viewBox = "0 0 300 400",
     fontSize = "4",
     fontFamily = "Arial",
-    textAnchor = "start",
-    strokeWidth = 0.2 ;
+    textAnchor = "start";
     
     
     
@@ -117,7 +117,9 @@ function textChanged() {
    var cdx = Number(document.getElementById('cdx').value);
    var cdy = Number(document.getElementById('cdy').value);    
    var ccolor = document.getElementById('ccolor').value;
-   var ecolor = document.getElementById('ecolor').value;   
+   var ecolor = document.getElementById('ecolor').value;  
+   var strokeWidth = Number(document.getElementById('stroke').value) / 1000;   
+
    var pcolor = "#00ff00";   
 
    var top = document.getElementById("top").checked ;
@@ -138,6 +140,7 @@ function textChanged() {
         .attr("y1", 0)
         .attr("x2", px)
         .attr("y2", 0)
+        .attr("fill", "none")         
         .attr("stroke-width", strokeWidth)
         .attr("stroke", pcolor) ; 
     svg.append("line")
@@ -145,6 +148,7 @@ function textChanged() {
         .attr("y1", 0)
         .attr("x2", px)
         .attr("y2", py)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", pcolor) ; 
     svg.append("line")
@@ -152,6 +156,7 @@ function textChanged() {
         .attr("y1", py)
         .attr("x2", 0)
         .attr("y2", py)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", pcolor)  ;  
     svg.append("line")
@@ -159,6 +164,7 @@ function textChanged() {
         .attr("y1", py)
         .attr("x2", 0)
         .attr("y2", 0)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", pcolor) ;        
 
@@ -174,6 +180,7 @@ function textChanged() {
         .attr("y1", y0 + dw + 2 * dz)
         .attr("x2", x0 + dw)
         .attr("y2", y0 + dw + 2 * dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);   
     svg.append("line")
@@ -181,188 +188,215 @@ function textChanged() {
         .attr("y1", y0 + dw + 2 * dz)
         .attr("x2", x0 + dw)
         .attr("y2", y0 + dw + dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);    
     svg.append("line")
         .attr("x1", x0 + dw)
         .attr("y1", y0 + dw + dz)
         .attr("x2", x0 + dw + 2 * dz)
-        .attr("y2", y0 + dw + dz)        
+        .attr("y2", y0 + dw + dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);  
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz)
         .attr("y1", y0 + dw + dz)
         .attr("x2", x0 + dw + 2 * dz)
-        .attr("y2", y0 + dw )        
+        .attr("y2", y0 + dw )
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);   
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz)
         .attr("y1", y0 + dw )  
         .attr("x2", x0 + dw + 2 * dz + dw)
-        .attr("y2", y0 )        
+        .attr("y2", y0 )     
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);  
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz + dw)
         .attr("y1", y0 )   
         .attr("x2", x0 + dw + 2 * dz + dx - dw)
-        .attr("y2", y0 )        
+        .attr("y2", y0 )     
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);  
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz + dx - dw)
         .attr("y1", y0 )    
         .attr("x2", x0 + dw + 2 * dz + dx)
-        .attr("y2", y0 + dw )        
+        .attr("y2", y0 + dw )
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);  
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz + dx)
         .attr("y1", y0 + dw )   
         .attr("x2", x0 + dw + 2 * dz + dx)
-        .attr("y2", y0 + dw + dz)        
+        .attr("y2", y0 + dw + dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);  
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz + dx)
         .attr("y1", y0 + dw + dz)   
         .attr("x2", x0 + dw + 4 * dz + dx)
-        .attr("y2", y0 + dw + dz)        
+        .attr("y2", y0 + dw + dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);     
     svg.append("line")
         .attr("x1", x0 + dw + 4 * dz + dx)
         .attr("y1", y0 + dw + dz)   
         .attr("x2", x0 + dw + 4 * dz + dx)
-        .attr("y2", y0 + dw + 2 * dz)        
+        .attr("y2", y0 + dw + 2 * dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);   
     svg.append("line")
         .attr("x1", x0 + dw + 4 * dz + dx)
         .attr("y1", y0 + dw + 2 * dz)  
         .attr("x2", x0 + dw + 2 * dz + dx)
-        .attr("y2", y0 + dw + 2 * dz)        
+        .attr("y2", y0 + dw + 2 * dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);  
     svg.append("line")
         .attr("x1", x0 + dw + 4 * dz + dx)
         .attr("y1", y0 + dw + 2 * dz)    
         .attr("x2", x0 + dw + 4 * dz + dx + dw)
-        .attr("y2", y0 + dw + 2 * dz + dw)        
+        .attr("y2", y0 + dw + 2 * dz + dw)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);    
     svg.append("line")
         .attr("x1", x0 + dw + 4 * dz + dx + dw)
         .attr("y1", y0 + dw + 2 * dz + dw)   
         .attr("x2", x0 + dw + 4 * dz + dx + dw)
-        .attr("y2", y0 + dw + 2 * dz + dy - dw)        
+        .attr("y2", y0 + dw + 2 * dz + dy - dw)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);    
     svg.append("line")
         .attr("x1", x0 + dw + 4 * dz + dx + dw)
         .attr("y1", y0 + dw + 2 * dz + dy - dw)  
         .attr("x2", x0 + dw + 4 * dz + dx)
-        .attr("y2", y0 + dw + 2 * dz + dy)        
+        .attr("y2", y0 + dw + 2 * dz + dy)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);     
     svg.append("line")
         .attr("x1", x0 + dw + 4 * dz + dx)
         .attr("y1", y0 + dw + 2 * dz + dy) 
         .attr("x2", x0 + dw + 2 * dz + dx)
-        .attr("y2", y0 + dw + 2 * dz + dy)        
+        .attr("y2", y0 + dw + 2 * dz + dy)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);  
     svg.append("line")
         .attr("x1", x0 + dw + 4 * dz + dx)
         .attr("y1", y0 + dw + 2 * dz + dy)  
         .attr("x2", x0 + dw + 4 * dz + dx)
-        .attr("y2", y0 + dw + 2 * dz + dy + dz)        
+        .attr("y2", y0 + dw + 2 * dz + dy + dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);  
     svg.append("line")
         .attr("x1", x0 + dw + 4 * dz + dx)
         .attr("y1", y0 + dw + 2 * dz + dy + dz)  
         .attr("x2", x0 + dw + 2 * dz + dx)
-        .attr("y2", y0 + dw + 2 * dz + dy + dz)        
+        .attr("y2", y0 + dw + 2 * dz + dy + dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);   
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz + dx)
         .attr("y1", y0 + dw + 2 * dz + dy + dz)   
         .attr("x2", x0 + dw + 2 * dz + dx)
-        .attr("y2", y0 + dw + 2 * dz + dy + 2 * dz)        
+        .attr("y2", y0 + dw + 2 * dz + dy + 2 * dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor); 
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz + dx)
         .attr("y1", y0 + dw + 2 * dz + dy + 2 * dz)   
         .attr("x2", x0 + 2 * dz + dx)
-        .attr("y2", y0 + dw + 2 * dz + dy + 2 * dz + dw)        
+        .attr("y2", y0 + dw + 2 * dz + dy + 2 * dz + dw)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);  
     svg.append("line")
         .attr("x1", x0 + 2 * dz + dx)
         .attr("y1", y0 + dw + 2 * dz + dy + 2 * dz + dw)  
         .attr("x2", x0 + dw + 2 * dz + dw)
-        .attr("y2", y0 + dw + 2 * dz + dy + 2 * dz + dw)        
+        .attr("y2", y0 + dw + 2 * dz + dy + 2 * dz + dw)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);   
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz + dw)
         .attr("y1", y0 + dw + 2 * dz + dy + 2 * dz + dw)   
         .attr("x2", x0 + dw + 2 * dz)
-        .attr("y2", y0 + dw + 2 * dz + dy + 2 * dz)        
+        .attr("y2", y0 + dw + 2 * dz + dy + 2 * dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);   
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz)
         .attr("y1", y0 + dw + 2 * dz + dy + 2 * dz)   
         .attr("x2", x0 + dw + 2 * dz)
-        .attr("y2", y0 + dw + 2 * dz + dy + dz)        
+        .attr("y2", y0 + dw + 2 * dz + dy + dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);    
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz)
         .attr("y1", y0 + dw + 2 * dz + dy + dz)   
         .attr("x2", x0 + dw)
-        .attr("y2", y0 + dw + 2 * dz + dy + dz)        
+        .attr("y2", y0 + dw + 2 * dz + dy + dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);   
     svg.append("line")
         .attr("x1", x0 + dw)
         .attr("y1", y0 + dw + 2 * dz + dy + dz)  
         .attr("x2", x0 + dw)
-        .attr("y2", y0 + dw + 2 * dz + dy)        
+        .attr("y2", y0 + dw + 2 * dz + dy)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);   
     svg.append("line")
         .attr("x1", x0 + dw)
         .attr("y1", y0 + dw + 2 * dz + dy) 
         .attr("x2", x0 + dw + 2 * dz)
-        .attr("y2", y0 + dw + 2 * dz + dy)        
+        .attr("y2", y0 + dw + 2 * dz + dy)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);    
     svg.append("line")
         .attr("x1", x0 + dw)
         .attr("y1", y0 + dw + 2 * dz + dy) 
         .attr("x2", x0)
-        .attr("y2", y0 + 2 * dz + dy)        
+        .attr("y2", y0 + 2 * dz + dy)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);  
     svg.append("line")
         .attr("x1", x0)
         .attr("y1", y0 + 2 * dz + dy) 
         .attr("x2", x0)
-        .attr("y2", y0 + dw + 2 * dz + dw)        
+        .attr("y2", y0 + dw + 2 * dz + dw)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);  
     svg.append("line")
         .attr("x1", x0)
         .attr("y1", y0 + dw + 2 * dz + dw) 
         .attr("x2", x0 + dw)
-        .attr("y2", y0 + dw + 2 * dz)        
+        .attr("y2", y0 + dw + 2 * dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ccolor);        
         
@@ -393,21 +427,24 @@ function textChanged() {
         .attr("x1", x0 + dw)
         .attr("y1", y0 + dw + 2 * dz) 
         .attr("x2", x0 + dw)
-        .attr("y2", y0 + dw + 2 * dz + dy)        
+        .attr("y2", y0 + dw + 2 * dz + dy)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ecolor);         
     svg.append("line")
         .attr("x1", x0 + dw + dz)
         .attr("y1", y0 + dw + 2 * dz + dy)  
         .attr("x2", x0 + dw + dz)
-        .attr("y2", y0 + dw + 2 * dz)        
+        .attr("y2", y0 + dw + 2 * dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ecolor);   
     svg.append("line")
         .attr("x1", x0 + dw + 2 *  dz)
         .attr("y1", y0 + dw + dz)
         .attr("x2", x0 + dw + 2 * dz)
-        .attr("y2", y0 + dw + dy + 3 * dz)        
+        .attr("y2", y0 + dw + dy + 3 * dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ecolor);  
     svg.append("line")
@@ -415,41 +452,47 @@ function textChanged() {
         .attr("y1", y0 + dw + dy + 3 * dz)      
         .attr("x2", x0 + dw + 2 *  dz + dx)
         .attr("y2", y0 + dw + dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ecolor);          
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz + dx + dz)
         .attr("y1", y0 + dw + 2 * dz)    
         .attr("x2", x0 + dw + 2 * dz + dx + dz)
-        .attr("y2", y0 + dw + dy + 2 * dz)      
+        .attr("y2", y0 + dw + dy + 2 * dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ecolor);  
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz + dx + 2 * dz)
         .attr("y1", y0 + dw + dy + 2 * dz)       
         .attr("x2", x0 + dw + 2 * dz + dx + 2 * dz)
-        .attr("y2", y0 + dw + 2 * dz)    
+        .attr("y2", y0 + dw + 2 * dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ecolor);         
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz + dx)
         .attr("y1", y0 + dw)     
         .attr("x2", x0 + dw + 2 * dz)
-        .attr("y2", y0 + dw)    
+        .attr("y2", y0 + dw) 
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ecolor);  
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz)
         .attr("y1", y0 + dw + dz)      
         .attr("x2", x0 + dw + 2 * dz + dx)
-        .attr("y2", y0 + dw + dz)     
+        .attr("y2", y0 + dw + dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ecolor);  
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz + dx)
         .attr("y1", y0 + dw + 2 * dz)     
         .attr("x2", x0 + dw + 2 * dz)
-        .attr("y2", y0 + dw + 2 * dz)    
+        .attr("y2", y0 + dw + 2 * dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ecolor);     
 
@@ -457,21 +500,24 @@ function textChanged() {
         .attr("x1", x0 + dw + 2 * dz + dx)
         .attr("y1", y0 + dw + dy + 2 * dz)     
         .attr("x2", x0 + dw + 2 * dz)
-        .attr("y2", y0 + dw + dy + 2 * dz)    
+        .attr("y2", y0 + dw + dy + 2 * dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ecolor);  
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz)
         .attr("y1", y0 + dw + dz + dy + 2 * dz)      
         .attr("x2", x0 + dw + 2 * dz + dx)
-        .attr("y2", y0 + dw + dz + dy + 2 * dz)     
+        .attr("y2", y0 + dw + dz + dy + 2 * dz)
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ecolor);  
     svg.append("line")
         .attr("x1", x0 + dw + 2 * dz + dx)
         .attr("y1", y0 + dw + 2 * dz + dy + 2 * dz)     
         .attr("x2", x0 + dw + 2 * dz)
-        .attr("y2", y0 + dw + 2 * dz + dy + 2 * dz)    
+        .attr("y2", y0 + dw + 2 * dz + dy + 2 * dz) 
+        .attr("fill", "none")        
         .attr("stroke-width", strokeWidth)
         .attr("stroke", ecolor);   
         
