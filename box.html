@@ -49,27 +49,21 @@ a:link {
     <label><input type="radio" name="mode" value="linear"> linear</label>
   -->
 <div id="control">  
-  <textarea id="textarea" oninput="textChanged();">XXXXXX</textarea> </br>
-  Columns: <input  id="cols" type="number" name="cols" min="1" max="100" value="5" oninput="textChanged();"> </br>  
-  X [mm]: <input  id="x0" type="number" name="x (mm)" min="0" max="500" value="0" oninput="textChanged();"> </br>
-  Y [mm]: <input  id="y0" type="number" name="y (mm)" min="0" max="500" value="10" oninput="textChanged();"> </br>   
-  Dx [mm]: <input  id="dx" type="number" name="dx (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>
-  Dy [mm]: <input  id="dy" type="number" name="dy (mm)" min="1" max="100" value="38" oninput="textChanged();"> </br>  
-  FontSize: <input  id="fontSize" type="number" name="fontsize" min="1" max="200" value="4" oninput="textChanged();"> </br> 
-  Font-family: <select id="fontFamily" onchange="textChanged();"> 
-   <option value="Arial" selected>Arial</option>
-   <option value="Ubuntu">Ubuntu</option>
-   <option value="Ubuntu Mono">Ubuntu Mono</option>   
-   <option value="Tahoma">Tahoma</option>
-   <option value="Verdana">Verdana</option>  
-   <option value="Segoe Print">Segoe Print</option>    
-  </select>  </br>
-  Font color: <input id="color" type="color" name="favcolor" onchange="textChanged();" value="#ff0000"> </br>  
-  Text-anchor: <select id="textAnchor" onchange="textChanged();"> 
-   <option value="start" selected>start</option>
-   <option value="middle">middle</option>
-   <option value="end">end</option>
-  </select>  </br>  
+  Page width [mm]: <input  id="px" type="number" name="page dx(mm)" min="0" max="500" value="210" oninput="textChanged();"> </br>
+  Page length [mm]: <input  id="py" type="number" name="page dy(mm)" min="0" max="500" value="297" oninput="textChanged();"> </br> 
+  Page margin left [mm]: <input  id="x0" type="number" name="x offset(mm)" min="0" max="500" value="2" oninput="textChanged();"> </br>
+  Page margin top [mm]: <input  id="y0" type="number" name="y offset(mm)" min="0" max="500" value="2" oninput="textChanged();"> </br>   
+  Box width [mm]: <input  id="dx" type="number" name="box width (mm)" min="1" max="300" value="110" oninput="textChanged();"> </br>
+  Box Length [mm]: <input  id="dy" type="number" name="box length (mm)" min="1" max="300" value="190" oninput="textChanged();"> </br>  
+  Box height [mm]: <input  id="dz" type="number" name="box height (mm)" min="1" max="100" value="20" oninput="textChanged();"> </br>   
+  Wing width [mm]: <input  id="dw" type="number" name="wing width (mm)" min="1" max="20" value="7" oninput="textChanged();"> </br>
+  Top cover: <input  id="top" type="checkbox" name="top" value="Top cover" checked onChange="textChanged();"> </br> 
+  Top width add [mm]: <input  id="dxa" type="number" name="Top width add (mm)" min="1" max="10" value="3" oninput="textChanged();"> </br>
+  Top length add [mm]: <input  id="dya" type="number" name="Top length add (mm)" min="1" max="10" value="3" oninput="textChanged();"> </br>  
+  Cover hole len [mm]: <input  id="cdy" type="number" name="Cover hole len (mm)" min="1" max="100" value="20" oninput="textChanged();"> </br>
+  Cover hole height [mm]: <input  id="cdx" type="number" name="Cover hole height (mm)" min="1" max="100" value="7" oninput="textChanged();"> </br>
+  Cut color: <input id="ccolor" type="color" name="favcolor" onchange="textChanged();" value="#ff0000"> </br> 
+  Emboss color: <input id="ecolor" type="color" name="favcolor" onchange="textChanged();" value="#000000"> </br>   
   <p><a href="#" id="download">Download SVG</a></p>  
 </div>
 <div id="vector"></div>
@@ -80,12 +74,15 @@ a:link {
  
 
  
-var width = "500mm",
-    height = "500mm",
-    viewBox = "0 0 500 500",
+var width = "300mm",
+    height = "400mm",
+    viewBox = "0 0 300 400",
     fontSize = "4",
     fontFamily = "Arial",
-    textAnchor = "start" ;
+    textAnchor = "start",
+    strokeWidth = 0.2 ;
+    
+    
     
 
     
@@ -103,23 +100,28 @@ textChanged();
  
 
 function textChanged() {
-   var textLines =  document.getElementById('textarea').value.split('\n') ;
-   var maxCnt = textLines.length;
+
    var x;
    var y;
 
-   var rows = 10;
-   var cols = Number(document.getElementById('cols').value);
+   var px = Number(document.getElementById('px').value);
+   var py = Number(document.getElementById('py').value);
    var x0 = Number(document.getElementById('x0').value);
    var y0 = Number(document.getElementById('y0').value);
    var dx = Number(document.getElementById('dx').value);
    var dy = Number(document.getElementById('dy').value);  
-   var color = document.getElementById('color').value;
+   var dxa = Number(document.getElementById('dxa').value);
+   var dya = Number(document.getElementById('dya').value);    
+   var dz = Number(document.getElementById('dz').value);
+   var dw = Number(document.getElementById('dw').value);  
+   var cdx = Number(document.getElementById('cdx').value);
+   var cdy = Number(document.getElementById('cdy').value);    
+   var ccolor = document.getElementById('ccolor').value;
+   var ecolor = document.getElementById('ecolor').value;   
+   var pcolor = "#00ff00";   
 
-   fontSize = document.getElementById('fontSize').value;
-   fontFamily = document.getElementById('fontFamily').value;  
-   textAnchor = document.getElementById('textAnchor').value;     
-   
+   var top = document.getElementById("top").checked ;
+
    d3.select("svg").remove();
    
    
@@ -130,21 +132,349 @@ function textChanged() {
     .attr("viewBox", viewBox)
     .attr("preserveAspectRatio", "none");   
    
-   for(var i = 0;i < maxCnt;i++){
-     y = (Math.floor( i / cols ) * dy) + y0;
-     x = (( i % cols ) * dx) + x0;
+// page outline
+    svg.append("line")
+        .attr("x1", 0)
+        .attr("y1", 0)
+        .attr("x2", px)
+        .attr("y2", 0)
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", pcolor) ; 
+    svg.append("line")
+        .attr("x1", px)
+        .attr("y1", 0)
+        .attr("x2", px)
+        .attr("y2", py)
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", pcolor) ; 
+    svg.append("line")
+        .attr("x1", px)
+        .attr("y1", py)
+        .attr("x2", 0)
+        .attr("y2", py)
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", pcolor)  ;  
+    svg.append("line")
+        .attr("x1", 0)
+        .attr("y1", py)
+        .attr("x2", 0)
+        .attr("y2", 0)
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", pcolor) ;        
 
-     var text = svg.append("text")
-       .attr("x", x)
-       .attr("y", y)
-       .attr("font-size",fontSize)
-       .attr("font-family",fontFamily)
-       .attr("text-anchor",textAnchor)
-       .attr("font-weight","normal")
-       .attr("fill",color)    
-       .text(textLines[i]);  
-       
-   }   
+    if( top ) {
+        dx = dx + dxa;
+        dy = dy + dya;
+    }
+
+// box outline cut
+
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz)
+        .attr("y1", y0 + dw + 2 * dz)
+        .attr("x2", x0 + dw)
+        .attr("y2", y0 + dw + 2 * dz)
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);   
+    svg.append("line")
+        .attr("x1", x0 + dw)
+        .attr("y1", y0 + dw + 2 * dz)
+        .attr("x2", x0 + dw)
+        .attr("y2", y0 + dw + dz)
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);    
+    svg.append("line")
+        .attr("x1", x0 + dw)
+        .attr("y1", y0 + dw + dz)
+        .attr("x2", x0 + dw + 2 * dz)
+        .attr("y2", y0 + dw + dz)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);  
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz)
+        .attr("y1", y0 + dw + dz)
+        .attr("x2", x0 + dw + 2 * dz)
+        .attr("y2", y0 + dw )        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);   
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz)
+        .attr("y1", y0 + dw )  
+        .attr("x2", x0 + dw + 2 * dz + dw)
+        .attr("y2", y0 )        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);  
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz + dw)
+        .attr("y1", y0 )   
+        .attr("x2", x0 + dw + 2 * dz + dx - dw)
+        .attr("y2", y0 )        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);  
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz + dx - dw)
+        .attr("y1", y0 )    
+        .attr("x2", x0 + dw + 2 * dz + dx)
+        .attr("y2", y0 + dw )        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);  
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz + dx)
+        .attr("y1", y0 + dw )   
+        .attr("x2", x0 + dw + 2 * dz + dx)
+        .attr("y2", y0 + dw + dz)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);  
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz + dx)
+        .attr("y1", y0 + dw + dz)   
+        .attr("x2", x0 + dw + 4 * dz + dx)
+        .attr("y2", y0 + dw + dz)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);     
+    svg.append("line")
+        .attr("x1", x0 + dw + 4 * dz + dx)
+        .attr("y1", y0 + dw + dz)   
+        .attr("x2", x0 + dw + 4 * dz + dx)
+        .attr("y2", y0 + dw + 2 * dz)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);   
+    svg.append("line")
+        .attr("x1", x0 + dw + 4 * dz + dx)
+        .attr("y1", y0 + dw + 2 * dz)  
+        .attr("x2", x0 + dw + 2 * dz + dx)
+        .attr("y2", y0 + dw + 2 * dz)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);  
+    svg.append("line")
+        .attr("x1", x0 + dw + 4 * dz + dx)
+        .attr("y1", y0 + dw + 2 * dz)    
+        .attr("x2", x0 + dw + 4 * dz + dx + dw)
+        .attr("y2", y0 + dw + 2 * dz + dw)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);    
+    svg.append("line")
+        .attr("x1", x0 + dw + 4 * dz + dx + dw)
+        .attr("y1", y0 + dw + 2 * dz + dw)   
+        .attr("x2", x0 + dw + 4 * dz + dx + dw)
+        .attr("y2", y0 + dw + 2 * dz + dy - dw)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);    
+    svg.append("line")
+        .attr("x1", x0 + dw + 4 * dz + dx + dw)
+        .attr("y1", y0 + dw + 2 * dz + dy - dw)  
+        .attr("x2", x0 + dw + 4 * dz + dx)
+        .attr("y2", y0 + dw + 2 * dz + dy)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);     
+    svg.append("line")
+        .attr("x1", x0 + dw + 4 * dz + dx)
+        .attr("y1", y0 + dw + 2 * dz + dy) 
+        .attr("x2", x0 + dw + 2 * dz + dx)
+        .attr("y2", y0 + dw + 2 * dz + dy)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);  
+    svg.append("line")
+        .attr("x1", x0 + dw + 4 * dz + dx)
+        .attr("y1", y0 + dw + 2 * dz + dy)  
+        .attr("x2", x0 + dw + 4 * dz + dx)
+        .attr("y2", y0 + dw + 2 * dz + dy + dz)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);  
+    svg.append("line")
+        .attr("x1", x0 + dw + 4 * dz + dx)
+        .attr("y1", y0 + dw + 2 * dz + dy + dz)  
+        .attr("x2", x0 + dw + 2 * dz + dx)
+        .attr("y2", y0 + dw + 2 * dz + dy + dz)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);   
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz + dx)
+        .attr("y1", y0 + dw + 2 * dz + dy + dz)   
+        .attr("x2", x0 + dw + 2 * dz + dx)
+        .attr("y2", y0 + dw + 2 * dz + dy + 2 * dz)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor); 
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz + dx)
+        .attr("y1", y0 + dw + 2 * dz + dy + 2 * dz)   
+        .attr("x2", x0 + 2 * dz + dx)
+        .attr("y2", y0 + dw + 2 * dz + dy + 2 * dz + dw)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);  
+    svg.append("line")
+        .attr("x1", x0 + 2 * dz + dx)
+        .attr("y1", y0 + dw + 2 * dz + dy + 2 * dz + dw)  
+        .attr("x2", x0 + dw + 2 * dz + dw)
+        .attr("y2", y0 + dw + 2 * dz + dy + 2 * dz + dw)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);   
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz + dw)
+        .attr("y1", y0 + dw + 2 * dz + dy + 2 * dz + dw)   
+        .attr("x2", x0 + dw + 2 * dz)
+        .attr("y2", y0 + dw + 2 * dz + dy + 2 * dz)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);   
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz)
+        .attr("y1", y0 + dw + 2 * dz + dy + 2 * dz)   
+        .attr("x2", x0 + dw + 2 * dz)
+        .attr("y2", y0 + dw + 2 * dz + dy + dz)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);    
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz)
+        .attr("y1", y0 + dw + 2 * dz + dy + dz)   
+        .attr("x2", x0 + dw)
+        .attr("y2", y0 + dw + 2 * dz + dy + dz)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);   
+    svg.append("line")
+        .attr("x1", x0 + dw)
+        .attr("y1", y0 + dw + 2 * dz + dy + dz)  
+        .attr("x2", x0 + dw)
+        .attr("y2", y0 + dw + 2 * dz + dy)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);   
+    svg.append("line")
+        .attr("x1", x0 + dw)
+        .attr("y1", y0 + dw + 2 * dz + dy) 
+        .attr("x2", x0 + dw + 2 * dz)
+        .attr("y2", y0 + dw + 2 * dz + dy)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);    
+    svg.append("line")
+        .attr("x1", x0 + dw)
+        .attr("y1", y0 + dw + 2 * dz + dy) 
+        .attr("x2", x0)
+        .attr("y2", y0 + 2 * dz + dy)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);  
+    svg.append("line")
+        .attr("x1", x0)
+        .attr("y1", y0 + 2 * dz + dy) 
+        .attr("x2", x0)
+        .attr("y2", y0 + dw + 2 * dz + dw)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);  
+    svg.append("line")
+        .attr("x1", x0)
+        .attr("y1", y0 + dw + 2 * dz + dw) 
+        .attr("x2", x0 + dw)
+        .attr("y2", y0 + dw + 2 * dz)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ccolor);        
+        
+// box top hole cut      
+    if( top ) {
+        svg.append("ellipse")
+            .attr("cx", x0 + dw + dz)
+            .attr("cy", y0 + dw + 2 * dz + dy / 2) 
+            .attr("rx", cdx)
+            .attr("ry", cdy / 2)   
+            .attr("fill", "none")             
+            .attr("stroke-width", strokeWidth)
+            .attr("stroke", ccolor); 
+        svg.append("ellipse")
+            .attr("cx", x0 + dw + 3 * dz + dx)
+            .attr("cy", y0 + dw + 2 * dz + dy / 2) 
+            .attr("rx", cdx)
+            .attr("ry", cdy / 2)   
+            .attr("fill", "none")             
+            .attr("stroke-width", strokeWidth)
+            .attr("stroke", ccolor);             
+    }    
+        
+        
+// box emboss cut        
+        
+    svg.append("line")
+        .attr("x1", x0 + dw)
+        .attr("y1", y0 + dw + 2 * dz) 
+        .attr("x2", x0 + dw)
+        .attr("y2", y0 + dw + 2 * dz + dy)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ecolor);         
+    svg.append("line")
+        .attr("x1", x0 + dw + dz)
+        .attr("y1", y0 + dw + 2 * dz + dy)  
+        .attr("x2", x0 + dw + dz)
+        .attr("y2", y0 + dw + 2 * dz)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ecolor);   
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 *  dz)
+        .attr("y1", y0 + dw + dz)
+        .attr("x2", x0 + dw + 2 * dz)
+        .attr("y2", y0 + dw + dy + 3 * dz)        
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ecolor);  
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz + dx)
+        .attr("y1", y0 + dw + dy + 3 * dz)      
+        .attr("x2", x0 + dw + 2 *  dz + dx)
+        .attr("y2", y0 + dw + dz)
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ecolor);          
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz + dx + dz)
+        .attr("y1", y0 + dw + 2 * dz)    
+        .attr("x2", x0 + dw + 2 * dz + dx + dz)
+        .attr("y2", y0 + dw + dy + 2 * dz)      
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ecolor);  
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz + dx + 2 * dz)
+        .attr("y1", y0 + dw + dy + 2 * dz)       
+        .attr("x2", x0 + dw + 2 * dz + dx + 2 * dz)
+        .attr("y2", y0 + dw + 2 * dz)    
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ecolor);         
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz + dx)
+        .attr("y1", y0 + dw)     
+        .attr("x2", x0 + dw + 2 * dz)
+        .attr("y2", y0 + dw)    
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ecolor);  
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz)
+        .attr("y1", y0 + dw + dz)      
+        .attr("x2", x0 + dw + 2 * dz + dx)
+        .attr("y2", y0 + dw + dz)     
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ecolor);  
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz + dx)
+        .attr("y1", y0 + dw + 2 * dz)     
+        .attr("x2", x0 + dw + 2 * dz)
+        .attr("y2", y0 + dw + 2 * dz)    
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ecolor);     
+
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz + dx)
+        .attr("y1", y0 + dw + dy + 2 * dz)     
+        .attr("x2", x0 + dw + 2 * dz)
+        .attr("y2", y0 + dw + dy + 2 * dz)    
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ecolor);  
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz)
+        .attr("y1", y0 + dw + dz + dy + 2 * dz)      
+        .attr("x2", x0 + dw + 2 * dz + dx)
+        .attr("y2", y0 + dw + dz + dy + 2 * dz)     
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ecolor);  
+    svg.append("line")
+        .attr("x1", x0 + dw + 2 * dz + dx)
+        .attr("y1", y0 + dw + 2 * dz + dy + 2 * dz)     
+        .attr("x2", x0 + dw + 2 * dz)
+        .attr("y2", y0 + dw + 2 * dz + dy + 2 * dz)    
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke", ecolor);   
+        
 }  
 
 function writeDownloadLink(){
